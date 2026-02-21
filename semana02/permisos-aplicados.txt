@@ -1,0 +1,78 @@
+organized/:
+total 24
+drwxrwxr-x 2 rodrigo rodrigo 4096 feb 21 18:58 config
+drwxrwxr-x 2 rodrigo rodrigo 4096 feb 21 18:58 documents
+drwxrwxr-x 2 rodrigo rodrigo 4096 feb 21 18:58 images
+drwxrwxr-x 2 rodrigo rodrigo 4096 feb 21 18:58 logs
+drwxrwxr-x 2 rodrigo rodrigo 4096 feb 21 18:58 scripts
+drwxrwxr-x 2 rodrigo rodrigo 4096 feb 21 18:58 temp
+
+organized/config:
+total 16
+-rw-rw-r-- 1 rodrigo rodrigo 29 feb 21 18:06 config_1.conf
+-rw-rw-r-- 1 rodrigo rodrigo 29 feb 21 18:06 config_2.conf
+-rw-rw-r-- 1 rodrigo rodrigo 29 feb 21 18:06 config_3.conf
+-rw-rw-r-- 1 rodrigo rodrigo 29 feb 21 18:06 config_4.conf
+
+organized/documents:
+total 68
+-rw-rw-r-- 1 rodrigo rodrigo    0 feb 21 17:46 analisis-permisos.md
+-rw-rw-r-- 1 rodrigo rodrigo   22 feb 21 18:06 documento_1.txt
+-rw-rw-r-- 1 rodrigo rodrigo   22 feb 21 18:06 documento_2.txt
+-rw-rw-r-- 1 rodrigo rodrigo   22 feb 21 18:06 documento_3.txt
+-rw-rw-r-- 1 rodrigo rodrigo   22 feb 21 18:06 documento_4.txt
+-rw-rw-r-- 1 rodrigo rodrigo   22 feb 21 18:06 documento_5.txt
+-rw-rw-r-- 1 rodrigo rodrigo 3931 feb 21 18:07 estado-inicial.txt
+-rw-rw-r-- 1 rodrigo rodrigo   56 feb 21 18:48 estructura-final.txt
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 notas_1.md
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 notas_2.md
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 notas_3.md
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 notas_4.md
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 notas_5.md
+-rw-rw-r-- 1 rodrigo rodrigo    0 feb 20 18:54 README.md
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 reporte_1.doc
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 reporte_2.doc
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 reporte_3.doc
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 reporte_4.doc
+-rw-rw-r-- 1 rodrigo rodrigo   10 feb 21 18:06 reporte_5.doc
+
+organized/images:
+total 40
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 foto_1.jpg
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 foto_2.jpg
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 foto_3.jpg
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 foto_4.jpg
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 foto_5.jpg
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 screenshot_1.png
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 screenshot_2.png
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 screenshot_3.png
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 screenshot_4.png
+-rw-rw-r-- 1 rodrigo rodrigo 14 feb 21 18:06 screenshot_5.png
+
+organized/logs:
+total 28
+-rw-rw-r-- 1 rodrigo rodrigo 91 feb 21 18:06 app_1.log
+-rw-rw-r-- 1 rodrigo rodrigo 91 feb 21 18:06 app_2.log
+-rw-rw-r-- 1 rodrigo rodrigo 91 feb 21 18:06 app_3.log
+-rw-rw-r-- 1 rodrigo rodrigo 30 feb 21 18:06 sistema_1.log
+-rw-rw-r-- 1 rodrigo rodrigo 30 feb 21 18:06 sistema_2.log
+-rw-rw-r-- 1 rodrigo rodrigo 30 feb 21 18:06 sistema_3.log
+-rw-rw-r-- 1 rodrigo rodrigo 30 feb 21 18:06 sistema_4.log
+
+organized/scripts:
+total 48
+-rwxrwxr-x 1 rodrigo rodrigo 1301 feb 21 18:00 generate-messy-files.sh
+-rwxrwxr-x 1 rodrigo rodrigo 1962 feb 21 18:58 organize-files.sh
+-rw-rw-r-- 1 rodrigo rodrigo   48 feb 21 18:06 script_1.sh
+-rw-rw-r-- 1 rodrigo rodrigo   48 feb 21 18:06 script_2.sh
+-rw-rw-r-- 1 rodrigo rodrigo   48 feb 21 18:06 script_3.sh
+-rw-rw-r-- 1 rodrigo rodrigo   48 feb 21 18:06 script_4.sh
+-rw-rw-r-- 1 rodrigo rodrigo   48 feb 21 18:06 script_5.sh
+-rw-rw-r-- 1 rodrigo rodrigo   34 feb 21 18:06 utilidad_1.py
+-rw-rw-r-- 1 rodrigo rodrigo   34 feb 21 18:06 utilidad_2.py
+-rw-rw-r-- 1 rodrigo rodrigo   34 feb 21 18:06 utilidad_3.py
+-rw-rw-r-- 1 rodrigo rodrigo   34 feb 21 18:06 utilidad_4.py
+-rw-rw-r-- 1 rodrigo rodrigo   34 feb 21 18:06 utilidad_5.py
+
+organized/temp:
+total 0
