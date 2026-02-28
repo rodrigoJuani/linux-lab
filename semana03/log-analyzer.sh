@@ -56,3 +56,18 @@ done
 
 echo ""
 
+# [3/5] Eventos por hora
+echo "[3/5] EVENTOS POR HORA"
+echo "-------------------------------------------"
+
+# Extraer la hora del timestamp (campo 1 → HH:MM:SS → HH)
+cut -d '|' -f1 "$LOGFILE" | \
+awk '{ print $2 }' | \
+cut -d ':' -f1 | \
+sort | \
+uniq -c | \
+sort -n | \
+awk '{ printf "%02d:00  %4d eventos\n", $2, $1 }'
+
+echo ""
+
