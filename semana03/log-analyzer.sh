@@ -88,3 +88,76 @@ awk '{
 }'
 
 echo
+# [5/5] Generar reporte en Markdown
+echo "[5/5] GENERANDO REPORTE EN MARKDOWN..."
+
+REPORT="report.md"
+
+cat > "$REPORT" << EOF
+# Reporte de Análisis de Logs
+
+**Archivo analizado:** $LOGFILE  
+**Fecha del análisis:** $(date '+%Y-%m-%d %H:%M:%S')  
+**Total de entradas:** $(wc -l < "$LOGFILE")
+
+---
+
+## 1. Top 10 Direcciones IP
+
+| Solicitudes | Dirección IP |
+|------------|--------------|
+$(cut -d '|' -f2 "$LOGFILE" | \
+sed 's/^ *//;s/ *$//' | \
+sort | uniq -c | sort -rn | head -10 | \
+awk '{ printf "| %d | %s |\n", $1, $2 }')
+
+---
+
+## 2. Distribución por Severidad
+
+| Nivel   | Cantidad |
+|---------|----------|
+$(for nivel in FATAL ERROR WARNING INFO; do
+    COUNT=$(grep -c "| $nivel |" "$LOGFILE" 2>/dev/null || echo 0)
+    echo "| $nivel | $COUNT |"
+done)
+
+---
+
+## 3. Eventos por Hora
+
+| Hora  | Eventos |
+|-------|---------|
+$(cut -d '|' -f1 "$LOGFILE" | \
+awk '{print $2}' | \
+cut -d ':' -f1 | \
+sort | uniq -c | \
+awk '{ printf "| %02d:00 | %d |\n", $2, $1 }')
+
+---
+
+## 4. Top 5 Mensajes de Error
+
+| Frecuencia | Mensaje |
+|------------|----------|
+$(grep -E '\| (ERROR|FATAL) \|' "$LOGFILE" | \
+cut -d '|' -f4 | \
+sed 's/^ *//;s/ *$//' | \
+sort | uniq -c | sort -rn | head -5 | \
+awk '{ count=$1; $1=""; sub(/^ /,""); printf "| %d | %s |\n", count, $0 }')
+
+---
+
+## 5. Resumen
+
+- Sistema analizado con $(wc -l < "$LOGFILE") eventos registrados.
+- $(grep -E -c '\| (ERROR|FATAL) \|' "$LOGFILE" 2>/dev/null || echo 0) eventos requieren atención (ERROR y FATAL).
+- Análisis completado con herramientas UNIX estándar.
+
+EOF
+
+echo
+echo "Reporte guardado en: $REPORT"
+echo "=============================="
+echo "ANÁLISIS COMPLETADO"
+echo "=============================="
