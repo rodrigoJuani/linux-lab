@@ -62,12 +62,29 @@ echo "-------------------------------------------"
 
 # Extraer la hora del timestamp (campo 1 → HH:MM:SS → HH)
 cut -d '|' -f1 "$LOGFILE" | \
-awk '{ print $2 }' | \
+awk '{print $2 }' | \
 cut -d ':' -f1 | \
 sort | \
 uniq -c | \
-sort -n | \
 awk '{ printf "%02d:00  %4d eventos\n", $2, $1 }'
 
 echo ""
+# [4/5] Top 5 mensajes de error más frecuentes
+echo "[4/5] TOP 5 MENSAJES DE ERROR"
+echo "-------------------------------------------"
 
+grep -E '\| (ERROR|FATAL) \|' "$LOGFILE" | \
+cut -d '|' -f4 | \
+sed 's/^ *//;s/ *$//' | \
+sort | \
+uniq -c | \
+sort -rn | \
+head -5 | \
+awk '{
+    count = $1
+    $1 = ""
+    sub(/^ /, "")
+    printf "%4d veces -> %s\n", count, $0
+}'
+
+echo
