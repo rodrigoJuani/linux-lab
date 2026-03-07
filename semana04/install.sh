@@ -40,6 +40,7 @@ instalar() {
     ln -s "$fuente" "$destino"
 
     echo "[OK] $destino -> $fuente"
+
 }
 
 # Instalar cada dotfile
@@ -47,7 +48,8 @@ instalar bashrc
 instalar bash_aliases
 instalar vimrc
 
-echo ""
+
+echo "    "
 echo "Instalación completa."
 echo "Para aplicar los cambios ahora, ejecuta:"
 echo "source ~/.bashrc"
