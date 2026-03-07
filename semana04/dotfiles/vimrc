@@ -51,4 +51,11 @@ nnoremap <Esc> :nohlsearch<CR>
 
 " Mover líneas con Alt + j / Alt + k
 nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
+nnoremap <A-k> :m .-2<CR>=
+" Plugin manager
+call plug#begin('~/.vim/plugged')
+
+Plug 'preservim/nerdtree'
+Plug 'vim-airline/vim-airline'
+
+call plug#end()
