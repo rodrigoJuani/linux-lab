@@ -110,3 +110,9 @@ bak () {
         echo "Archivo no encontrado: $1"
     fi
 }
+# Ver clima desde la terminal
+clima() {
+    curl wttr.in/${1:-Oruro}
+}
+
+
