@@ -115,4 +115,11 @@ clima() {
     curl wttr.in/${1:-Oruro}
 }
 
+# Actualizar sistema
+alias update='sudo apt update && sudo apt upgrade'
 
+# Ver puertos abiertos
+alias ports='netstat -tulanp'
+
+# Buscar procesos
+alias psg='ps aux | grep -i'
