@@ -1,0 +1,54 @@
+" ~/.vimrc - Configuración de Vim
+" Semana 4: Editores y Dotfiles
+
+" ---- Básico ----
+set nocompatible        " No compatible con vi antiguo
+syntax on               " Resaltado de sintaxis
+set encoding=utf-8      " Codificación de caracteres
+
+" ---- Apariencia ----
+set number              " Mostrar números de línea
+set cursorline          " Resaltar la línea actual
+set showmode            " Mostrar el modo actual
+set ruler               " Mostrar posición del cursor
+set laststatus=2        " Barra de estado siempre visible
+
+" ---- Indentación ----
+set tabstop=4           " Tab equivale a 4 espacios
+set shiftwidth=4        " Indentación automática de 4 espacios
+set expandtab           " Usar espacios en lugar de tab
+set autoindent          " Mantener indentación anterior
+set smartindent         " Indentación inteligente
+
+" ---- Búsqueda ----
+set incsearch           " Buscar mientras se escribe
+set hlsearch            " Resaltar resultados
+set ignorecase          " Ignorar mayúsculas/minúsculas
+set smartcase           " Excepto si hay mayúsculas en el patrón
+
+" ---- Comportamiento ----
+set backspace=indent,eol,start   " Backspace funciona correctamente
+set wrap                        " Envolver líneas largas
+set linebreak                   " Cortar en palabras
+set scrolloff=5                 " Mantener 5 líneas de contexto
+set wildmenu                    " Autocompletado mejorado
+
+" ---- Archivos ----
+set nobackup        " No crear archivos .bak
+set noswapfile      " No crear archivos .swp
+
+" ---- Mapeos personalizados ----
+
+" 'jj' en modo Insert equivale a Esc
+inoremap jj <Esc>
+
+" Guardar con Ctrl + S (requiere: stty -ixon en .bashrc)
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>a
+
+" Limpiar resaltado de búsqueda con Esc
+nnoremap <Esc> :nohlsearch<CR>
+
+" Mover líneas con Alt + j / Alt + k
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
