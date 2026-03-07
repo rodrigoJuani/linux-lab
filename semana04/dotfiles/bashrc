@@ -43,7 +43,13 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
+echo "================================"
+echo " Bienvenido $USER"
+echo " Fecha: $(date)"
+echo ""
+echo " Uso del disco:"
+df -h | head -n 5
+echo "================================"
 
 
 
