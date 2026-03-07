@@ -1,0 +1,65 @@
+
+==============================
+       ANALIZADOR DE LOGS
+==============================
+Archivo   : sample.log
+Entradas  : 500
+==============================
+
+[1/5] TOP 10 DIRECCIONES IP
+-------------------------------------------
+  171 solicitudes -> 192.168.1.10
+  100 solicitudes -> 10.0.0.5
+   66 solicitudes -> 192.168.1.25
+   57 solicitudes -> 203.0.113.42
+   56 solicitudes -> 172.16.0.3
+   50 solicitudes -> 10.0.0.99
+
+[2/5] DISTRIBUCIÓN POR SEVERIDAD
+-------------------------------------------
+FATAL        83 entradas ( 16,6%)
+ERROR        85 entradas ( 17,0%)
+WARNING      69 entradas ( 13,8%)
+INFO        263 entradas ( 52,6%)
+
+[3/5] EVENTOS POR HORA
+-------------------------------------------
+00:00    29 eventos
+01:00    29 eventos
+02:00    16 eventos
+03:00    18 eventos
+04:00    17 eventos
+05:00    18 eventos
+06:00    20 eventos
+07:00    18 eventos
+08:00    24 eventos
+09:00    20 eventos
+10:00    21 eventos
+11:00    18 eventos
+12:00    28 eventos
+13:00    22 eventos
+14:00    22 eventos
+15:00    23 eventos
+16:00    22 eventos
+17:00    24 eventos
+18:00    18 eventos
+19:00    15 eventos
+20:00    17 eventos
+21:00    21 eventos
+22:00    22 eventos
+23:00    18 eventos
+
+[4/5] TOP 5 MENSAJES DE ERROR
+-------------------------------------------
+  58 veces -> Connection timeout after 30 s
+  46 veces -> Authentication failed for user admin
+  24 veces -> Failed to write to disk
+  21 veces -> Out of memory error in module X
+  19 veces -> Database connection refused
+
+[5/5] GENERANDO REPORTE EN MARKDOWN...
+
+Reporte guardado en: report.md
+==============================
+ANÁLISIS COMPLETADO
+==============================
