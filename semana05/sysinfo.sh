@@ -33,6 +33,7 @@ exit 2
 }
 
 # === Procesar argumentos ===
+FORMATO="texto"
 MODO="${1:---all}"
 
 case "$MODO" in
@@ -41,6 +42,10 @@ case "$MODO" in
     --mem) MODO="mem" ;;
     --disk) MODO="disk" ;;
     --proc) MODO="proc" ;;
+    --json)
+       FORMATO="json"
+       MODO="all"
+    ;;
     --version)
         echo "sysinfo.sh versión $VERSION";
         exit 0
@@ -179,6 +184,14 @@ awk '{ printf "%-8s %-5s %-5s %s\n", $2, $3, $4, $11 }'
 
 echo ""
 }
+if [ "$FORMATO" = "json" ]; then
+echo "{"
+echo "\"usuario\": \"$USER\","
+echo "\"hostname\": \"$(hostname)\","
+echo "\"kernel\": \"$(uname -r)\""
+echo "}"
+exit 0
+fi
 # === Ejecutar según el modo ===
 case "$MODO" in
 all)
