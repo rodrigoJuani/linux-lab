@@ -41,6 +41,7 @@ case "$MODO" in
     --cpu) MODO="cpu" ;;
     --mem) MODO="mem" ;;
     --disk) MODO="disk" ;;
+    --net) MODO="net" ;; 
     --proc) MODO="proc" ;;
     --json)
        FORMATO="json"
@@ -192,6 +193,17 @@ echo "\"kernel\": \"$(uname -r)\""
 echo "}"
 exit 0
 fi
+# === Sección 6: Red ===
+seccion_red() {
+echo "[RED]"
+echo "$SEPARADOR_SEC"
+
+ip_local=$(hostname -i)
+
+printf "%-18s %s\n" "IP local:" "$ip_local"
+
+echo ""
+}
 # === Ejecutar según el modo ===
 case "$MODO" in
 all)
@@ -200,7 +212,8 @@ all)
     seccion_memoria
     seccion_disco
     seccion_procesos
-    ;;
+    seccion_red
+ ;;
 cpu)
     seccion_cpu
     ;;
@@ -212,5 +225,8 @@ disk)
     ;;
 proc)
     seccion_procesos
+    ;;
+net)
+    seccion_red
     ;;
 esac
