@@ -34,6 +34,7 @@ exit 2
 
 # === Procesar argumentos ===
 FORMATO="texto"
+OUTPUT=""
 MODO="${1:---all}"
 
 case "$MODO" in
@@ -42,11 +43,16 @@ case "$MODO" in
     --mem) MODO="mem" ;;
     --disk) MODO="disk" ;;
     --net) MODO="net" ;; 
-    --proc) MODO="proc" ;;
+   --proc) MODO="proc" ;;
     --json)
        FORMATO="json"
        MODO="all"
     ;;
+   --output)
+       OUTPUT="$2"
+       MODO="all"
+       shift
+       ;;
     --version)
         echo "sysinfo.sh versión $VERSION";
         exit 0
@@ -59,7 +65,9 @@ case "$MODO" in
         uso
         ;;
 esac
-
+if [ -n "$OUTPUT" ]; then
+exec > "$OUTPUT"
+fi
 echo "$SEPARADOR"
 printf "REPORTE DEL SISTEMA - sysinfo.sh v%s\n" "$VERSION"
 echo "$SEPARADOR"
