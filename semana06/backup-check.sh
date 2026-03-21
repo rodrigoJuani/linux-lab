@@ -17,7 +17,7 @@ readonly MAX_TAMANIO_MB=50000      # alertar si el backup es muy grande
 
 # === Variables de estado global ===
 estado_global="OK"
-
+DRY_RUN=false
 # === Función de uso ===
 uso() {
 echo "Uso: $0 [directorio_backup]"
@@ -44,8 +44,11 @@ local mensaje="$2"
 local timestamp
 timestamp=$(date '+%Y-%m-%d %H:%M:%S')
 
-printf "[%s] [%-7s] %s\n" "$timestamp" "$nivel" "$mensaje" \
-| tee -a "$LOGFILE"
+if [ "$DRY_RUN" = true ]; then
+    printf "[%s] [%-7s] %s\n" "$timestamp" "$nivel" "$mensaje"
+else
+    printf "[%s] [%-7s] %s\n" "$timestamp" "$nivel" "$mensaje" | tee -a "$LOGFILE"
+fi
 
 # Actualizar el estado global si el nivel es grave
 if [ "$nivel" = "ERROR" ] && [ "$estado_global" != "ERROR" ]; then
@@ -59,6 +62,7 @@ fi
 case "${1:-}" in
     --version) echo "backup-check.sh v$VERSION"; exit 0 ;;
     --help|-h) uso ;;
+    --dry-run) DRY_RUN=true ;;
 esac
 # === Verificación 1: existencia del directorio ===
 verificar_directorio() {
@@ -149,6 +153,40 @@ fi
 log "OK" "Tamaño dentro del rango: ${tamanio_mb} MB"
 return 0
 }
+# === Verificación 5: backups antiguos (>30 días) ===
+verificar_antiguos() {
+    log "INFO" "Buscando backups con más de 30 días..."
+
+    local antiguos
+    antiguos=$(find "$DIR_BACKUP" -maxdepth 1 -type f -name "*.tar.gz" -mtime +30)
+
+    local total
+    total=$(echo "$antiguos" | grep -c .)
+
+    if [ "$total" -gt 10 ]; then
+        log "WARNING" "Hay $total backups antiguos (más de 30 días):"
+        echo "$antiguos" | while read -r file; do
+            log "WARNING" " - $file"
+        done
+        return 0
+    fi
+
+    log "OK" "Cantidad de backups antiguos: $total"
+    return 0
+}
+# === Verificación extra: comparación con /etc ===
+verificar_newer() {
+    log "INFO" "Comparando backups con /etc..."
+
+    local recientes
+    recientes=$(find "$DIR_BACKUP" -type f -name "*.tar.gz" -newer /etc | wc -l)
+
+    if [ "$recientes" -eq 0 ]; then
+        log "WARNING" "No hay backups más recientes que /etc"
+    else
+        log "OK" "$recientes backups son más recientes que /etc"
+    fi
+}
 # === Inicio del reporte ===
 log "INFO" "=== backup-check.sh v$VERSION - Inicio ==="
 log "INFO" "Directorio objetivo: $DIR_BACKUP"
@@ -163,8 +201,11 @@ if ! verificar_archivos; then
     log "ERROR" "Verificación abortada: no hay backups válidos."
     exit 1
 fi
+verificar_archivos
 verificar_antiguedad
 verificar_tamanio
+verificar_antiguos
+verificar_newer
 # === Estado final ===
 log "INFO" "=== Verificación completada ==="
 
