@@ -6,7 +6,7 @@
 #      [--umbral-disco N] [--umbral-ram N]
 
 readonly VERSION="1.0.0"
-readonly LOGFILE="monitor.log"
+LOGFILE="monitor.log"
 
 UMBRAL_DISCO=80
 UMBRAL_RAM=85
@@ -20,6 +20,7 @@ uso() {
     echo " --umbral-disco N Alerta de disco en %"
     echo " --umbral-ram N Alerta de RAM en %"
     echo " --version Version"
+    echo " --log RUTA Archivo de log personalizado"
     exit 2
 }
 
@@ -73,7 +74,8 @@ while [ $# -gt 0 ]; do
         --umbral-ram) UMBRAL_RAM="$2"; shift 2 ;;
         --version) echo "monitor.sh v$VERSION"; exit 0 ;;
         --help|-h) uso ;;
-        *) echo "Opcion desconocida: $1"; uso ;;
+        --log) LOGFILE="$2"; shift 2 ;;
+    *) echo "Opcion desconocida: $1"; uso ;;
     esac
 done
 
