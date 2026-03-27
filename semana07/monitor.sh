@@ -38,7 +38,24 @@ carga_cpu() {
     uptime | awk -F 'load average: ' '{ print $2 }' \
     | awk '{ gsub(/,/,"",$1); print $1 }'
 }
+uso_red() {
+    local rx=0
+    local tx=0
 
+    while IFS= read -r linea; do
+        case "$linea" in
+            *:*)
+                iface=$(echo "$linea" | awk -F ':' '{print $1}' | xargs)
+                if [ "$iface" != "lo" ]; then
+                    rx=$(echo "$linea" | awk '{print $2}')
+                    tx=$(echo "$linea" | awk '{print $10}')
+                    echo "RX:${rx} TX:${tx}"
+                    return
+                fi
+                ;;
+        esac
+    done < /proc/net/dev
+}
 registrar() {
     local nivel="$1"
     local mensaje="$2"
@@ -104,9 +121,10 @@ while true; do
     disco=$(uso_disco)
     ram=$(uso_ram)
     cpu=$(carga_cpu)
+    red=$(uso_red)
 
     registrar "INFO" \
-    "Disco: ${disco}% RAM: ${ram}% CPU-load: ${cpu}"
+    "Disco: ${disco}% RAM: ${ram}% CPU-load: ${cpu} RED: ${red}"
 
     [ "$disco" -ge "$UMBRAL_DISCO" ] && \
     registrar "ALERTA" \
