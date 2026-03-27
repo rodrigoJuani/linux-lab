@@ -21,6 +21,7 @@ uso() {
     echo " --umbral-ram N Alerta de RAM en %"
     echo " --version Version"
     echo " --log RUTA Archivo de log personalizado"
+    echo " --historial Mostrar promedio de uso desde el log"
     exit 2
 }
 
@@ -82,7 +83,41 @@ resumen_log() {
     done
     echo "==============================="
 }
+historial() {
+    local total=0
+    local suma_disco=0
+    local suma_ram=0
 
+    while IFS= read -r linea; do
+        case "$linea" in
+            *"Disco:"*)
+                disco=$(echo "$linea" | awk -F 'Disco: ' '{print $2}' | awk '{print $1}' | tr -d '%')
+                ram=$(echo "$linea" | awk -F 'RAM: ' '{print $2}' | awk '{print $1}' | tr -d '%')
+
+                suma_disco=$((suma_disco + disco))
+                suma_ram=$((suma_ram + ram))
+                total=$((total + 1))
+                ;;
+        esac
+    done < "$LOGFILE"
+
+    echo ""
+    echo "===== HISTORIAL DE USO ====="
+
+    if [ "$total" -eq 0 ]; then
+        echo "No hay datos en el log"
+        return
+    fi
+
+    prom_disco=$((suma_disco / total))
+    prom_ram=$((suma_ram / total))
+
+    printf "%-20s %10s\n" "METRICA" "PROMEDIO"
+    printf "%-20s %10s\n" "Disco (%)" "$prom_disco"
+    printf "%-20s %10s\n" "RAM (%)" "$prom_ram"
+
+    echo "============================"
+}
 while [ $# -gt 0 ]; do
     case "$1" in
         --intervalo) INTERVALO="$2"; shift 2 ;;
@@ -92,7 +127,8 @@ while [ $# -gt 0 ]; do
         --version) echo "monitor.sh v$VERSION"; exit 0 ;;
         --help|-h) uso ;;
         --log) LOGFILE="$2"; shift 2 ;;
-    *) echo "Opcion desconocida: $1"; uso ;;
+        --historial) historial; exit 0 ;; 
+   *) echo "Opcion desconocida: $1"; uso ;;
     esac
 done
 
