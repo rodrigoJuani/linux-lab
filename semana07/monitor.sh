@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # monitor.sh - Monitor de recursos del sistema
+# Semana 7: Ciclos en Bash
 # Uso: ./monitor.sh [--intervalo N] [--max N]
 #      [--umbral-disco N] [--umbral-ram N]
 
@@ -10,42 +11,33 @@ readonly LOGFILE="monitor.log"
 UMBRAL_DISCO=80
 UMBRAL_RAM=85
 INTERVALO=10
-MAX_ITER=0 # 0 = sin limite
+MAX_ITER=0
 
 uso() {
     echo "Uso: $0 [opciones]"
-    echo ""
-    echo " --intervalo N        Segundos entre comprobaciones"
-    echo " --max N              Max. iteraciones (0=sin limite)"
-    echo " --umbral-disco N     Alerta de disco en %"
-    echo " --umbral-ram N       Alerta de RAM en %"
-    echo " --version            Version del script"
-    echo ""
-    echo "Ejemplos:"
-    echo " $0 --intervalo 5 --max 12"
-    echo " $0 --umbral-disco 70"
+    echo " --intervalo N Segundos entre iteraciones"
+    echo " --max N Max. iteraciones (0=sin limite)"
+    echo " --umbral-disco N Alerta de disco en %"
+    echo " --umbral-ram N Alerta de RAM en %"
+    echo " --version Version"
     exit 2
 }
 
-# Retorna el porcentaje de uso de la particion raiz
 uso_disco() {
     df / | awk 'NR==2 { gsub(/%/,"",$5); print $5 }'
 }
 
-# Retorna el porcentaje de RAM usada
 uso_ram() {
     free | awk '/^Mem:/ {
         printf "%.0f", ($3 / $2) * 100
     }'
 }
 
-# Retorna el load average del ultimo minuto
 carga_cpu() {
     uptime | awk -F 'load average: ' '{ print $2 }' \
     | awk '{ gsub(/,/,"",$1); print $1 }'
 }
 
-# Escribe al log y a pantalla con marca de tiempo
 registrar() {
     local nivel="$1"
     local mensaje="$2"
@@ -54,31 +46,25 @@ registrar() {
     printf "[%s] [%-7s] %s\n" \
         "$ts" "$nivel" "$mensaje" | tee -a "$LOGFILE"
 }
+
 resumen_log() {
     echo ""
     echo "==============================="
     echo "RESUMEN DE LA SESION"
     echo "==============================="
-
     local total alertas
-
     total=$(grep -c "\[ INFO \]" "$LOGFILE" 2>/dev/null || echo 0)
     alertas=$(grep -c "\[ ALERTA \]" "$LOGFILE" 2>/dev/null || echo 0)
-
-    printf "%-25s %d\n" "Comprobaciones totales:" "$total"
-    printf "%-25s %d\n" "Alertas emitidas:" "$alertas"
-
+    printf "%-25s %d\n" "Comprobaciones:" "$total"
+    printf "%-25s %d\n" "Alertas:" "$alertas"
     echo ""
     echo "Ultimas entradas:"
-
-    # Leer el log con while y mostrar las ultimas 3 lineas
     tail -3 "$LOGFILE" | while IFS= read -r linea; do
         echo "$linea"
     done
-
     echo "==============================="
 }
-# Procesar argumentos con while
+
 while [ $# -gt 0 ]; do
     case "$1" in
         --intervalo) INTERVALO="$2"; shift 2 ;;
@@ -90,9 +76,10 @@ while [ $# -gt 0 ]; do
         *) echo "Opcion desconocida: $1"; uso ;;
     esac
 done
-# Manejo de Ctrl + C: mostrar resumen antes de salir
+
 trap 'echo "";
-registrar "INFO" "Monitor detenido por el usuario.";
+resumen_log;
+registrar "INFO" "Monitor detenido.";
 exit 0' INT
 
 registrar "INFO" \
@@ -106,7 +93,6 @@ iteracion=0
 while true; do
     iteracion=$((iteracion + 1))
 
-    # Salir si se alcanzo el limite de iteraciones
     if [ "$MAX_ITER" -gt 0 ] && [ "$iteracion" -gt "$MAX_ITER" ]; then
         registrar "INFO" \
         "Limite de $MAX_ITER iteraciones alcanzado."
@@ -130,4 +116,8 @@ while true; do
 
     sleep "$INTERVALO"
 done
+
 resumen_log
+
+registrar "INFO" \
+"Monitor finalizado tras $((iteracion - 1)) iteraciones."
