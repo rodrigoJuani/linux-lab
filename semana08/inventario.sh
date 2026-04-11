@@ -1,4 +1,3 @@
-cat > inventario.sh << 'EOF'
 #!/bin/bash
 set -euo pipefail
 
@@ -10,4 +9,10 @@ if [[ ! -d "$REPO" ]]; then
 fi
 
 echo "Analizando repositorio: $REPO"
+cat >> inventario.sh << 'EOF'
+
+# --- 1. Cargar lista de archivos ---
+mapfile -t archivos < <(find "$REPO" -type f | sort)
+echo "Total de archivos encontrados: ${#archivos[@]}"
+
 EOF
