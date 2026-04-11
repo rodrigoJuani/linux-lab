@@ -61,9 +61,9 @@ echo ""
 echo "=== ARCHIVOS POR EXTENSION ==="
 {
     echo "EXTENSION ARCHIVOS TAMANO_KB"
-    for ext in $(printf '%s\n' "${!conteo[@]}" | sort); do
+    for ext in "${!conteo[@]}"; do
         kb=$((${tamano_ext["$ext"]:-0} / 1024))
-        echo "$ext ${conteo[$ext]} $kb"
+        echo "$ext ${conteo["$ext"]:-0} $kb"
     done
 } | column -t
 
@@ -98,7 +98,7 @@ echo ""
 echo "| Extension | Archivos | Tamano KB |"
 echo "|-----------|----------|-----------|"
 
-for ext in $(printf '%s\n' "${!conteo[@]}" | sort); do
+for ext in "${!conteo[@]}"; do
     kb=$((${tamano_ext["$ext"]:-0} / 1024))
     echo "| $ext | ${conteo[$ext]} | $kb |"
 done
@@ -178,6 +178,6 @@ if [[ -f /var/log/syslog ]]; then
         echo "$t -> ${conteo_logs[$t]}"
     done
 fi
-EOF
+#EOF
 
 
