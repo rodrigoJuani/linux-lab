@@ -158,6 +158,11 @@ for ((i=0; i<4; i++)); do
     promedio=$(echo "scale=2; $suma / 4" | bc)
     echo "${hosts[$i]} -> $promedio ms"
 done
+# --- EXTRA 3: Tabla con paste ---
+echo ""
+echo "=== LISTADO CON TAMANOS ==="
+
+paste <(ls -1) <(du -sh * 2>/dev/null | cut -f1) | column -t
 EOF
 
 
