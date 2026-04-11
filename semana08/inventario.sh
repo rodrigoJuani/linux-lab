@@ -163,6 +163,21 @@ echo ""
 echo "=== LISTADO CON TAMANOS ==="
 
 paste <(ls -1) <(du -sh * 2>/dev/null | cut -f1) | column -t
+# --- EXTRA 4: Analisis de logs ---
+declare -A conteo_logs
+
+if [[ -f /var/log/syslog ]]; then
+    while read -r linea; do
+        tipo=$(echo "$linea" | awk '{print $5}')
+        conteo_logs["$tipo"]=$((${conteo_logs["$tipo"]:-0} + 1))
+    done < /var/log/syslog
+
+    echo ""
+    echo "=== ANALISIS DE LOGS ==="
+    for t in "${!conteo_logs[@]}"; do
+        echo "$t -> ${conteo_logs[$t]}"
+    done
+fi
 EOF
 
 
