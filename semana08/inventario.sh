@@ -9,12 +9,12 @@ if [[ ! -d "$REPO" ]]; then
 fi
 
 echo "Analizando repositorio: $REPO"
-cat >> inventario.sh << 'EOF'
 
+#cat >> inventario.sh << 'EOF'
 # --- 1. Cargar lista de archivos ---
 mapfile -t archivos < <(find "$REPO" -type f | sort)
 echo "Total de archivos encontrados: ${#archivos[@]}"
-cat >> inventario.sh << 'EOF'
+
 # --- 2. Conteo por extension ---
 declare -A conteo
 declare -A tamano_ext
@@ -30,27 +30,7 @@ for f in "${archivos[@]}"; do
     bytes=$(stat -c %s "$f" 2>/dev/null || echo 0)
     tamano_ext["$ext"]=$((${tamano_ext["$ext"]:-0} + bytes))
 done
-EOF
 
-
-# --- 1. Cargar lista de archivos ---
-mapfile -t archivos < <(find "$REPO" -type f | sort)
-echo "Total de archivos encontrados: ${#archivos[@]}"
-# --- 2. Conteo por extension ---
-declare -A conteo
-declare -A tamano_ext
-
-for f in "${archivos[@]}"; do
-    nombre="${f##*/}"
-    if [[ "$nombre" == *.* ]]; then
-        ext="${nombre##*.}"
-    else
-        ext="(sin extension)"
-    fi
-    conteo["$ext"]=$((${conteo["$ext"]:-0} + 1))
-    bytes=$(stat -c %s "$f" 2>/dev/null || echo 0)
-    tamano_ext["$ext"]=$((${tamano_ext["$ext"]:-0} + bytes))
-done
 # --- 3. Estado de README por semana ---
 declare -A tiene_readme
 
@@ -62,5 +42,20 @@ for semana in "$REPO"/semana*/; do
         tiene_readme["$nombre"]="NO"
     fi
 done
+# --- 4. Matriz de resumen por semana ---
+mapfile -t semanas < <(ls -d "$REPO"/semana*/ 2>/dev/null | sort)
+COLS=3 # scripts, docs, tamano_kb
+declare -a matriz_sem
+
+for ((i=0; i<${#semanas[@]}; i++)); do
+    dir="${semanas[$i]}"
+    scripts=$(find "$dir" -name "*.sh" | wc -l)
+    docs=$(find "$dir" -name "*.md" | wc -l)
+    kb=$(du -sk "$dir" 2>/dev/null | awk '{print $1}')
+    matriz_sem[$((i * COLS + 0))]=$scripts
+    matriz_sem[$((i * COLS + 1))]=$docs
+    matriz_sem[$((i * COLS + 2))]=${kb:-0}
+done
 EOF
+
 
