@@ -118,6 +118,24 @@ done
 
 echo ""
 echo "Reporte guardado en: $REPORTE"
+# --- EXTRA 1: Usuarios con UID > 1000 ---
+declare -A uid_de
+
+mapfile -t lineas < /etc/passwd
+
+for linea in "${lineas[@]}"; do
+    usuario=$(echo "$linea" | cut -d: -f1)
+    uid=$(echo "$linea" | cut -d: -f3)
+    uid_de["$usuario"]=$uid
+done
+
+echo ""
+echo "=== USUARIOS CON UID > 1000 ==="
+for u in "${!uid_de[@]}"; do
+    if [ "${uid_de[$u]}" -gt 1000 ]; then
+        echo "$u -> ${uid_de[$u]}"
+    fi
+done
 EOF
 
 
