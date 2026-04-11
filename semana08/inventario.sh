@@ -136,6 +136,28 @@ for u in "${!uid_de[@]}"; do
         echo "$u -> ${uid_de[$u]}"
     fi
 done
+# --- EXTRA 2: Matriz de ping ---
+hosts=("google.com" "github.com" "cloudflare.com" "example.com")
+declare -a matriz_ping
+
+for ((i=0; i<4; i++)); do
+    for ((j=0; j<4; j++)); do
+        tiempo=$(ping -c 1 "${hosts[$i]}" 2>/dev/null | grep "time=" | awk -F'time=' '{print $2}' | awk '{print $1}')
+        tiempo=${tiempo:-0}
+        matriz_ping[$((i*4 + j))]=$tiempo
+    done
+done
+
+echo ""
+echo "=== PROMEDIO DE PING POR HOST ==="
+for ((i=0; i<4; i++)); do
+    suma=0
+    for ((j=0; j<4; j++)); do
+        suma=$(echo "$suma + ${matriz_ping[$((i*4 + j))]}" | bc)
+    done
+    promedio=$(echo "scale=2; $suma / 4" | bc)
+    echo "${hosts[$i]} -> $promedio ms"
+done
 EOF
 
 
