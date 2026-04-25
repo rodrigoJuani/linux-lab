@@ -1,0 +1,25 @@
+==============================================
+REPORTE DE PROCESOS - 2026-04-25 12:03:56
+Sistema: rodrigo-VirtualBox | Usuario: rodrigo
+==============================================
+
+--- Top 5 procesos por CPU ---
+rodrigo  PID:1912   CPU: 59.3% MEM: 24.0% /usr/lib/firefox/firefox-bin
+rodrigo  PID:1631   CPU: 36.0% MEM: 11.3% /usr/lib/firefox/firefox
+rodrigo  PID:1961   CPU: 15.2% MEM: 34.9% /usr/lib/firefox/firefox-bin
+root     PID:906    CPU: 10.9% MEM:  1.8% /usr/lib/xorg/Xorg
+root     PID:71     CPU:  5.0% MEM:  0.0% [kswapd0]
+
+--- Top 5 procesos por MEM ---
+rodrigo  PID:1961   CPU: 15.2% MEM: 34.9% /usr/lib/firefox/firefox-bin
+rodrigo  PID:1912   CPU: 59.3% MEM: 24.0% /usr/lib/firefox/firefox-bin
+rodrigo  PID:1631   CPU: 36.0% MEM: 11.3% /usr/lib/firefox/firefox
+rodrigo  PID:4163   CPU:  4.6% MEM:  4.6% /usr/lib/firefox/firefox-bin
+rodrigo  PID:1772   CPU:  0.4% MEM:  2.5% /usr/lib/firefox/firefox-bin
+
+--- Procesos zombie ---
+Ninguno detectado
+
+--- Verificando procesos vigilados ---
+[0;32m[2026-04-25 12:03:56] [OK] Proceso 'bash' activo (PID: 2400)[0m
+[0;33m[2026-04-25 12:03:56] [WARNING] Proceso 'sshd' no encontrado[0m
